@@ -1,0 +1,23 @@
+{
+  "name": "timer-reminder-demo",
+  "version": "1.0.0",
+  "description": "timer-reminder",
+  "main": "timer-reminder.js",
+  "bin": {
+    "timer-reminder": "timer-reminder.js"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "node ./timer-reminder.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "timer",
+    "reminder"
+  ],
+  "author": "dev Donov",
+  "license": "ISC",
+  "dependencies": {
+    "node-notifier": "^10.0.1"
+  }
+}
