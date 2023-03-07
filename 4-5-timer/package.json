@@ -1,6 +1,6 @@
 {
   "name": "timer-reminder-demo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "timer-reminder",
   "main": "timer-reminder.js",
   "bin": {
