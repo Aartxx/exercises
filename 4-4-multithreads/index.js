@@ -13,7 +13,7 @@ const performanceObserver = new PerformanceObserver(items => {
 
 performanceObserver.observe({ entryTypes: ['measure'] });
 
-const MAX_NUMBER_SIZE = 3000000000;
+const MAX_NUMBER_SIZE = 3_000_000_000;
 
 function withoutWorkers() {
     performance.mark('simple start');
@@ -40,22 +40,24 @@ const workerFunction = (start, end) => {
 }
 
 function withWorkers() {
-    performance.mark('worker start');
     const length = os.cpus().length;
-    const chunk = Math.ceil(MAX_NUMBER_SIZE / length);
+    const chunkSize = Math.ceil(MAX_NUMBER_SIZE / length);
+    const chunks =  Array.from({ length }, (_, ind) => {
+        const startChunk = ind * chunkSize;
+        const endChunk = startChunk + chunkSize;
 
-    Promise.all(
-        Array.from({ length }, (_, ind) => {
-            const startChunk = ind * chunk;
-            const endChunk = startChunk + chunk;
-
-            return workerFunction(startChunk + 1, Math.min(endChunk, MAX_NUMBER_SIZE));
-        })
-    ).then((results) => {
-        console.log(results);
-        performance.mark('worker end');
-        performance.measure('worker', 'worker start', 'worker end');
+        return workerFunction(startChunk + 1, Math.min(endChunk, MAX_NUMBER_SIZE));
     });
+
+    performance.mark('worker start');
+
+    Promise
+        .all(chunks)
+        .then((results) => {
+            console.log(results);
+            performance.mark('worker end');
+            performance.measure('worker', 'worker start', 'worker end');
+        });
 }
 
 withoutWorkers();
