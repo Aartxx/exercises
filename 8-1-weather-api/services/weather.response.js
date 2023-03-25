@@ -1,31 +1,22 @@
-const iconResolver = (icon) => {
-    switch (icon.slice(0, -1)) {
-        case '01':
-            return '🌞';
-        case '02':
-            return '🌤';
-        case '03':
-            return '🌥';
-        case '04':
-            return '🌥';
-        case '09':
-            return '🌧';
-        case '10':
-            return '🌦';
-        case '11':
-            return '🌩';
-        case '13':
-            return '⛄️';
-        case '50':
-            return '🌫';
-    }
-}
+const ICONS_MAP = {
+    '01': '🌞',
+    '02': '🌤',
+    '03': '🌥',
+    '04': '🌥',
+    '09': '🌧',
+    '10': '🌦',
+    '11': '🌩',
+    '13': '⛄️',
+    '50': '🌫',
+};
 
 export const getSuccessData = (data) => {
+    const iconCode = data.weather[0].icon.slice(0, -1);
+
     return {
         city: data.name,
         description: data.weather[0].description,
-        icon: iconResolver(data.weather[0].icon),
+        icon: ICONS_MAP[iconCode],
         temp: data.main.temp,
         feelsLike: data.main.feels_like,
         humidity: data.main.humidity,
